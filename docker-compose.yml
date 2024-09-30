@@ -1,4 +1,4 @@
-version: "3"
+# version: "3"
 services:
   db:
     image: mysql:8.0.32
@@ -14,7 +14,9 @@ services:
   rails:
     build:
       context: ./rails
-    # command: bash -c "bundle exec rails s -b '0.0.0.0'"
+      args:
+        USER_ID: ${UID:-1000}
+        GROUP_ID: ${GID:-1000}
     command: bash -c "tail -f log/development.log"
     volumes:
       - ./rails:/myapp
