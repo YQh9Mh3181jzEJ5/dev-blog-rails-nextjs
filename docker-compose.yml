@@ -15,8 +15,8 @@ services:
     build:
       context: ./rails
       args:
-        USER_ID: ${UID:-1000}
-        GROUP_ID: ${GID:-1000}
+        USER_ID: 1000
+        GROUP_ID: 1001
     command: bash -c "tail -f log/development.log"
     volumes:
       - ./rails:/myapp
@@ -26,5 +26,19 @@ services:
       - db
     tty: true
     stdin_open: true
+  next:
+    build:
+      dockerfile: ./next/Dockerfile
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1001
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./next:/app
+    ports:
+      - "8000:3000"
+    environment:
+      - NODE_ENV=development
 volumes:
   mysql_data:
